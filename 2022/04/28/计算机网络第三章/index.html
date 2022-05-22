@@ -1,0 +1,611 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>计算机网络第三章 | Nino Neumann</title><meta name="keywords" content="计算机网络,专业课"><meta name="author" content="Nino Neumann"><meta name="copyright" content="Nino Neumann"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="更新时间线                               2022-5-5哭了 我的进度拉下了好多 lag整理+一些概念的添加2022-4-28整理+一些概念的添加发现老师好像在MAC成帧的方法中只讲了一种(所以我拓展了一下  待完工)完善LLC部分的知识2022-4-27整理计算机网络第三章的一些知识                              内容参考">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机网络第三章">
+<meta property="og:url" content="https://ninoneumann.cn/2022/04/28/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%AC%E4%B8%89%E7%AB%A0/index.html">
+<meta property="og:site_name" content="Nino Neumann">
+<meta property="og:description" content="更新时间线                               2022-5-5哭了 我的进度拉下了好多 lag整理+一些概念的添加2022-4-28整理+一些概念的添加发现老师好像在MAC成帧的方法中只讲了一种(所以我拓展了一下  待完工)完善LLC部分的知识2022-4-27整理计算机网络第三章的一些知识                              内容参考">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://npm.elemecdn.com/ninoneumann-pic-assert/cover_6.jpg">
+<meta property="article:published_time" content="2022-04-28T03:25:03.000Z">
+<meta property="article:modified_time" content="2022-05-05T08:55:10.661Z">
+<meta property="article:author" content="Nino Neumann">
+<meta property="article:tag" content="计算机网络">
+<meta property="article:tag" content="专业课">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://npm.elemecdn.com/ninoneumann-pic-assert/cover_6.jpg"><link rel="shortcut icon" href="https://npm.elemecdn.com/ninoneumann-pic-assert/IOT.png"><link rel="canonical" href="https://ninoneumann.cn/2022/04/28/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%AC%E4%B8%89%E7%AB%A0/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/flickr-justified-gallery@2/dist/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '计算机网络第三章',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2022-05-05 16:55:10'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/custom.css"  media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pseudocode@latest/build/pseudocode.min.css"><script src="https://cdn.jsdelivr.net/npm/pseudocode@latest/build/pseudocode.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.11.1/katex.min.js" integrity="sha256-F/Xda58SPdcUCr+xhSGz9MA2zQBPb0ASEYKohl8UCHc=" crossorigin="anonymous"></script><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/l-lin/font-awesome-animation/dist/font-awesome-animation.min.css"  media="defer" onload="this.media='all'"><script async src="https://npm.elemecdn.com/hexo-butterfly-tag-plugins-plus@latest/lib/carousel-touch.min.js"></script><!-- hexo injector head_end start --><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-card-history/baiduhistory/css/main.css"><link rel="stylesheet" href="https://unpkg.zhimg.com/hexo-butterfly-artitalk-pro/lib/card.css" media="defer" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-clock/lib/clock.min.css" /><link rel="stylesheet" href="https://unpkg.zhimg.com/hexo-butterfly-footer-beautify@1.0.0/lib/runtime.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiperstyle.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://unpkg.zhimg.com/hexo-butterfly-wowjs/lib/animate.min.css" media="print" onload="this.media='screen'"><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-filter-gitcalendar/lib/gitcalendar.css" media="print" onload="this.media='all'"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 6.1.0"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><div id="web_bg"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://npm.elemecdn.com/ninoneumann-pic-assert/head_dog.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data is-center"><div class="data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">26</div></a></div><div class="data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">23</div></a></div><div class="data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> List</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://npm.elemecdn.com/ninoneumann-pic-assert/cover_6.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Nino Neumann</a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> Home</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> Archives</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> Tags</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> Categories</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> List</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> Link</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> About</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">计算机网络第三章</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2022-04-28T03:25:03.000Z" title="发表于 2022-04-28 11:25:03">2022-04-28</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2022-05-05T08:55:10.661Z" title="更新于 2022-05-05 16:55:10">2022-05-05</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E4%B8%93%E4%B8%9A%E8%AF%BE/">专业课</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="计算机网络第三章"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><details cyan open><summary> 更新时间线 </summary>
+              <div class='content'>
+              <div class="timeline"><div class="timenode"><div class="meta"><p><p>2022-5-5</p></p></div><div class="body"><p>哭了 我的进度拉下了好多 lag</p><ul><li>整理+一些概念的添加</li></ul></div></div><div class="timenode"><div class="meta"><p><p>2022-4-28</p></p></div><div class="body"><ul><li>整理+一些概念的添加<ul><li>发现老师好像在MAC成帧的方法中只讲了一种(所以我拓展了一下  待完工)</li><li>完善LLC部分的知识</li></ul></li></ul></div></div><div class="timenode"><div class="meta"><p><p>2022-4-27</p></p></div><div class="body"><ul><li>整理计算机网络第三章的一些知识</li></ul></div></div></div>
+              </div>
+            </details>
+<details cyan open><summary> 内容参考 </summary>
+              <div class='content'>
+              <div class="tip key"><ul><li><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_44751294/article/details/104886617">(130条消息) 计算机网络的数据链路层_Clichong的博客-CSDN博客_pwm调速</a></p></li><li><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/hanzhen7541/article/details/79011812">(130条消息) 数据链路层的成帧方法_Wzning0421的博客-CSDN博客_成帧的方法</a></p></li></ul></div><div class="tip bolt"><p>很全面！强烈安利：</p><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_46101869/article/details/118108697">(130条消息) 计算机网络知识汇总（超详细整理）_Dreamchaser追梦的博客-CSDN博客_计算机网络基础知识大全</a></p></div>
+              </div>
+            </details>
+<p>[TOC]</p>
+<h1>计算机网络第三章</h1>
+<p><strong>数据链路层  Data Link Layer</strong></p>
+<div class="tip bell faa-tada animated-hover"><p>第三章的前半部分主要就是从解决三个问题入手：</p>
+<ul>
+<li>framing (成帧)</li>
+<li>flow control</li>
+<li>error control</li>
+</ul>
+</div>
+<h2 id="数据链路层的概念">数据链路层的概念</h2>
+<h3 id="什么是数据链路层">什么是数据链路层</h3>
+<ul>
+<li>有区别于物理层</li>
+<li>数据链路层建立的是逻辑链路</li>
+</ul>
+<h3 id="数据链路层存在的意义">数据链路层存在的意义</h3>
+<div class="tip cogs faa-horizontal animated-hover"><p>cogs:</p>
+<ul>
+<li>The data link layer is  responsible for  efficient and reliable  communication  across a physical link.数据链路层在物理层 连接上提供一条高效 可靠的逻辑连接，为网络层提供服务。</li>
+<li>The data link layer  provides services to  the network layer</li>
+</ul>
+</div>
+<h3 id="物理链路和逻辑链路的区别">物理链路和逻辑链路的区别</h3>
+<div class="tip cogs"><p>cogs: 这里是介绍的一个部分可以略过去 就是单纯滴为加强理解而写的一部分</p>
+</div>
+<ul>
+<li>物理链路：</li>
+</ul>
+<blockquote>
+<p>是指在物理层设备（包括传输介质、物理接口和收发器等）和相应物理层通信规程作用下形成的物理线路，是永久存在的，且是不可删除的（除非物理拆除）</p>
+</blockquote>
+<ul>
+<li>数据链路：</li>
+</ul>
+<blockquote>
+<p>是通信双方在需要进行数据通信时，在数据链路层设备和相应的<strong>通信规程</strong>作用下建立的逻辑链路，可以是永远存在的（如局域网中的以太网链路），也可以不是永久存在的（如广域网中的链路），是否永久存在要视具体的数据链路层服务类型而定。</p>
+</blockquote>
+<h3 id="数据链路层存在的目的">数据链路层存在的目的</h3>
+<blockquote>
+<p>在<strong>原始的</strong>、<strong>有差错的</strong>物理传输线路的基础上，采取<strong>差错检测</strong>，<strong>差错控制</strong>和<strong>流量控制</strong>等方法，将有差错的物理线路改进成逻辑上的无差错的数据链路，以便向他的上一层网络层提供高质量的服务。</p>
+<blockquote>
+<p>具体而言，<strong>数据链路层</strong>中与传输介质访问无关的问题都集中在 LLC 子层来解决，为网络层提供服务。其主要功能包括逻辑链路的建立和释放、提供与网络层的接口（也就是前面说到的 SAP）、数据传输差错控制、给数据帧加上传输序列号等。</p>
+</blockquote>
+</blockquote>
+<h3 id="数据链路层存在的必要性">数据链路层存在的必要性</h3>
+<ul>
+<li>一是数据链路层可以屏蔽物理层中介与传输介质的不同，以及通信，规程协议的不同，从逻辑上正从逻辑意义上构建一条性能稳定，不受传输介质类型影响的人物及数据传输通道。</li>
+<li>二是因为物理层数据是一位一位单独传输的，传输效率低，而且容易出现数据传输差错，通过数据链路层把数据进行封装成以帧为单位进行传输，可以提高传输效率，而且还能做数据传输差错控制。</li>
+</ul>
+<h3 id="数据链路层的结构">数据链路层的结构</h3>
+<ul>
+<li>
+<p>LLC  (Logic Link Control)  逻辑链路控制</p>
+<blockquote>
+<p>LLC子层的最基本功能，就是负责数据链路层中的逻辑链路(逻辑链路就是物理层信道中的物理链路，在通过LLC协议作用后形成的虚拟电路)。包括<strong>逻辑链路的建立和释放</strong>，<strong>控制信号交换，数据流量控制</strong>，解释上层通信协议传来的命令并生产响应，以及<u>克服数据在传输的过程当中发生的种种问题</u>。<strong>如数据发生错误、重复收到相同的数据、接收数据顺序与传送的顺序不一致等</strong>。在LLC子层方面，IEEE 802系列中只制定了一种标准——IEEE 802.2。</p>
+</blockquote>
+</li>
+<li>
+<p>MAC (Medium Access Control)  介质访问控制</p>
+<blockquote>
+<p>控制不同用户数据传输中对物理层传输介质的访问，包括<strong>数据帧的封装/卸装</strong>，<strong>帧的寻址和识别</strong>，<strong>帧的接收与发送</strong>，<strong>帧的差错控制</strong>，以及<strong>介质访问冲突控制</strong>等。</p>
+</blockquote>
+</li>
+</ul>
+<p><img src="%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%AC%E4%B8%89%E7%AB%A0/v2-45d0ff49b41b9bbabb0ae2983beee4f2_r.jpg" alt="preview"></p>
+<h3 id="数据链路层提供的服务">数据链路层提供的服务</h3>
+<ul>
+<li>
+<p>Unacknowledged connectionless  无确认 无连接 服务</p>
+<ul>
+<li>接收方不对收到的帧进行确认  也不会对frame进行接受确认</li>
+<li>适用场景：误码率低的可靠信道；实时通信；</li>
+<li>网络实例：以太网</li>
+</ul>
+</li>
+<li>
+<p>Acknowledged connectionless  有确认 无连接 服务</p>
+<ul>
+<li>每一帧都得到单独的确认</li>
+<li>适用场景：不可靠的信道（无线信道）</li>
+<li>网络实例：802.11</li>
+</ul>
+</li>
+<li>
+<p>Acknowledged connection-oriented  有确认 有连接 服务</p>
+<ul>
+<li>适用场景：长延迟的不可靠信道</li>
+</ul>
+</li>
+</ul>
+<h2 id="数据链路层的主要功能及其原理">数据链路层的主要功能及其原理</h2>
+<h3 id="DLL-Data-Link-Layer-must-provide-数据链路层需要解决的几个问题">DLL(Data Link Layer) must provide 数据链路层需要解决的几个问题 :</h3>
+<ul>
+<li>
+<p>frame synchronization</p>
+</li>
+<li>
+<p>flow control</p>
+</li>
+<li>
+<p>error control</p>
+</li>
+<li>
+<p>addressing</p>
+</li>
+<li>
+<p>link management</p>
+</li>
+</ul>
+<h3 id="基本功能">基本功能</h3>
+<ul>
+<li>透明 + 可靠</li>
+</ul>
+<blockquote>
+<p><strong>透明</strong>”是指要使在数据链路层上所传输的数据在内容、格式及编码上都没有限制，也就是要使一些本来用于特殊用途的控制字符（具体有哪些控制字符将在本章后面介绍）也能像正常的数据一样传输，使接收端不要误认为这些字符为控制字符；</p>
+<p><strong>可靠</strong>的传输使数据从发送端无差错地在数据链路上传输到目的接收端。</p>
+</blockquote>
+<h3 id="LLC-功能">LLC 功能</h3>
+<h4 id="流量控制">流量控制</h4>
+<div class="tip key"><p>The main problem we have  to deal with here is how to  prevent the sender from  flooding the receiver with data  faster than the latter is able to  process them.</p>
+</div>
+<h5 id="流量控制协议Flow-control-protocols">流量控制协议Flow control protocols</h5>
+<h6 id="Stop-and-Wait-Protocols-停等协议-，-也是-ARQ-Automatic-Repeat-reQuest">Stop and Wait Protocols  停等协议 ， 也是  ARQ (Automatic Repeat reQuest)</h6>
+<blockquote>
+<p>Protocols in which the sender sends  one frame and then waits for an  acknowledgement before proceeding  are called stop-and-wait.</p>
+</blockquote>
+<p><img src="%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%AC%E4%B8%89%E7%AB%A0/image-20220428105831581.png" alt="image-20220428105831581"></p>
+<ul>
+<li>
+<p>停等协议面临的几个问题</p>
+<ul>
+<li>如果发送方一直接收到NAK怎么办？</li>
+<li>reciver 超时没法来ACK怎么办？</li>
+<li>数据包在传输的时候丢失怎么办？</li>
+<li>丢失后重传造成duplicated frame怎么解决？</li>
+<li>数据包传输中出错怎么办？</li>
+<li></li>
+</ul>
+</li>
+<li>
+<p>如果发送方一直接收到NAK怎么办？</p>
+</li>
+</ul>
+<p>设置一个最大的重传次数 如果重传次数超过 则向上层发送出错报告。</p>
+<ul>
+<li>reciver 超时没法来ACK怎么办？</li>
+</ul>
+<p>设置一个超时计时器 如果超时没有接收到ACK 则retransmits the frame。</p>
+<ul>
+<li>数据包在传输的时候丢失怎么办？</li>
+</ul>
+<p>重传！</p>
+<ul>
+<li>丢失后重传造成duplicated frame怎么解决？</li>
+</ul>
+<div class="tip bell"><p>注意这里的英文表达 : introduce</p>
+</div>
+<blockquote>
+<p>Retransmissions  may introduce duplicate  frames received by B</p>
+</blockquote>
+<p>给传输的frame添加一个序列号 sequence numbers</p>
+<ul>
+<li>关于ARQ协议 的Utilization 的计算   （结论 ARQ协议的Utilization很低）</li>
+</ul>
+<p><img src="%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%AC%E4%B8%89%E7%AB%A0/image-20220428111810581.png" alt="image-20220428111810581"></p>
+<p><img src="%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%AC%E4%B8%89%E7%AB%A0/image-20220428111835047.png" alt="image-20220428111835047"></p>
+<div class="tip warning"><p>胡烈ACK的传输时延</p>
+</div>
+<p><img src="%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%AC%E4%B8%89%E7%AB%A0/image-20220428111941781.png" alt="image-20220428111941781"></p>
+<p>为了提升传输的效率 这里引出了滑动窗口协议</p>
+<h6 id="滑动窗口协议">滑动窗口协议</h6>
+<p><img src="%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%AC%E4%B8%89%E7%AB%A0/image-20220505143206310.png" alt="image-20220505143206310"></p>
+<p>滑动窗口协议中：</p>
+<ul>
+<li>发送者能够一次性发送n个framme而不需要等待ack</li>
+<li>每nframes中都包含一个unique sequence number</li>
+<li>发送者分配unique sequence number</li>
+<li>接受者也维护一个他准备接受的sequence number</li>
+</ul>
+<h6 id="后退n帧协议">后退n帧协议</h6>
+<blockquote>
+<p>如果在滑动窗口协议中某一帧的frame出现丢失怎办</p>
+</blockquote>
+<p>The sender will then  retransmit the damage frame  and all the frames that follow it</p>
+<p>sender将会从丢失的frame处重新传输 （包括lost-frame之后的frames）</p>
+<p>实现后退n帧协议只需要将reciver的sliding windows大小设置为1这样如果出现丢frame的情况reciver就会remain same frame.</p>
+<p>缺陷：Go back n 会浪费掉很多的连接资源（由于不断的重传）</p>
+<h6 id="选择性重传【这个暂时先略过】">选择性重传【这个暂时先略过】</h6>
+<h3 id="GBN协议的相关例题：">GBN协议的相关例题：</h3>
+<p><img src="%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%AC%E4%B8%89%E7%AB%A0/image-20220505164452688.png" alt="image-20220505164452688"></p>
+<p><img src="%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%AC%E4%B8%89%E7%AB%A0/image-20220505164613419.png" alt="image-20220505164613419"></p>
+<h4 id="GBN协议的一些总结：">GBN协议的一些总结：</h4>
+<blockquote>
+<p>如果想要计算信道利用率最大得设置的窗口数据帧数量的话就使用 sender从发送data到接收到ack的时间/sender发送一个frame的时间</p>
+</blockquote>
+<h3 id="MAC-功能">MAC 功能</h3>
+<h4 id="成帧">成帧</h4>
+<div class="tip key"><p>frame sychronization  【帧定界】:接收方必须能从物理层发送过来的二进制比特流中明确的区分出一个frame的开始和结束</p>
+</div>
+<div class="tip key"><p>关键:  选择何种的定界符？如果定界符出现在frame中该如何处理</p>
+</div>
+<h5 id="成帧的方法">成帧的方法</h5>
+<ul>
+<li>带比特填充的定界符法  （Bit Stuffing位填充）</li>
+</ul>
+<p><img src="%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%AC%E4%B8%89%E7%AB%A0/Center-16511136840924.png" alt="img"></p>
+<div class="tip bell faa-rising animated-hover"><p>下面介绍两种（老师可能只提了一嘴的）方法</p>
+</div>
+<ul>
+<li>
+<p>字符计数法</p>
+<blockquote>
+<p>字符计数法 用一个帧的第一字节来说明帧的总长度（总长度包含这个帧头）</p>
+</blockquote>
+<blockquote>
+<p><img src="%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%AC%E4%B8%89%E7%AB%A0/Center.png" alt="img"></p>
+</blockquote>
+<blockquote>
+<p>如果出现问题：</p>
+</blockquote>
+<blockquote>
+<p>看这张图，白色为帧头，指明了长度，比如第一帧长度为5，后面就跟了4个字节，第二帧的长度为5，后面也跟了4字节，之后是两个8字节长度的，所以各自跟了7字节的正文部分。但是很显然，如果头这一个字节出了问题，影响的就不仅仅是这一帧了，其他的都会出问题。比如：</p>
+</blockquote>
+<blockquote>
+<p><img src="%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%AC%E4%B8%89%E7%AB%A0/Center-16511131222002.png" alt="img"></p>
+</blockquote>
+</li>
+<li>
+<p>字符填充的首尾界定法</p>
+</li>
+</ul>
+<div class="tip faa-bounce animated-hover"><p>这个方法就是将比特填充换成了某一个特定字符</p>
+</div>
+<div class="tip bolt faa-wrench animated-hover"><p>下面介绍一种物理层的定界方法：物理层编码违例法</p>
+</div>
+<ul>
+<li>物理层编码违例
+<ul>
+<li>核心思想：<strong>选择的定界符不会在数据部分出现</strong></li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>该法在物理层采用特定的比特编码方法时采用。例如，曼彻斯特编码方法，是将数据比特“1”编码成“高—低”电平对，将数据比特“0”编码成“低—高”电平对。而“高—高”电平对和“低—低”电平对在数据比特中是违法的。可以借用这些违法编码序列来界定帧的起始与终止。局域网IEEE 802标准中就采用了这种方法。违法编码法不需要任何填充技术，便能实现数据的透明性，但它只适于采用冗余编码的特殊编码环境。</p>
+</blockquote>
+<h4 id="差错控制-（校验-纠错）">差错控制 （校验+纠错）</h4>
+<ul>
+<li>
+<p>奇偶校验  【这个简单你懂的】</p>
+</li>
+<li>
+<p>校验和(Checksum) 【】</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_37174526/article/details/88407884">(134条消息) 一文读懂网络报问中的检验和（checksum）—— 原理+举例+代码_Liu Zhian的博客-CSDN博客_检验和</a></p>
+<blockquote>
+<p>生成checksum过程：</p>
+<p>待检验部分从头开始，每16比特进行一次加法计算（如果最后有8位剩余，最后加上这8位），这样最终计算出来的和进行一次反码运算，就是检验和。</p>
+<p>检验过程：</p>
+<p>和生成过程一样如果最后的结果是全为1的话那么表示没有出错</p>
+</blockquote>
+<div class="tip warning"><p>注意：如果求和过程中遇到了任何溢出，都进行回卷（即加回到最低位）</p>
+</div>
+<div class="tip "><p>主要用于TCP/IP体系中的网络层和传输层</p>
+</div>
+</li>
+<li>
+<p>CRC 循环冗余校验</p>
+</li>
+<li>
+<p>海明码</p>
+</li>
+</ul>
+<p>DDL 有检错/重传机制</p>
+<h3 id="信道分配问题">信道分配问题</h3>
+<h4 id="时分多址接入-TDMA">时分多址接入-TDMA</h4>
+<h4 id="频分多址接入-FDMA">频分多址接入-FDMA</h4>
+<h4 id="多路访问协议">多路访问协议</h4>
+<h5 id="随机访问">随机访问</h5>
+<h6 id="ALOHA">ALOHA</h6>
+<h6 id="CSMA-载波监听">CSMA  载波监听</h6>
+<ul>
+<li>持续式</li>
+<li>非持续式</li>
+</ul>
+<h5 id="受控访问">受控访问</h5>
+<h5 id="有限竞争">有限竞争</h5>
+<h2 id="DDL中的DLP（Data-Link-Protocols）的例子：">DDL中的DLP（Data Link Protocols）的例子：</h2>
+<p>HDLC- High-Level Data Link Control 高级数据链路控制</p>
+<p>PPP  Point-to-Point Protocol</p>
+<h2 id="一些知识的解释：">一些知识的解释：</h2>
+<ul>
+<li>曼彻斯特编码</li>
+</ul>
+<div class="tip "><p>最后叨叨几句</p>
+</div>
+<p>最近真的很迷茫 不知道该学什么，迷茫于学一些现成的东西还是学一些很基础的知识，学现成的快车知识很容易运用到某一些场景中 但是当遇到一些问题的时候又不能发觉其中的根源，所以我得学基础的，但是基础知识又枯燥乏味。</p>
+</article><div class="post-copyright"><div class="post-copyright__title"><span class="post-copyright-info"><h>计算机网络第三章</h></span></div><div class="post-copyright__type"><span class="post-copyright-info"><a href="https://ninoneumann.cn/2022/04/28/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%AC%E4%B8%89%E7%AB%A0/">https://ninoneumann.cn/2022/04/28/计算机网络第三章/</a></span></div><div class="post-copyright-m"><div class="post-copyright-m-info"><div class="post-copyright-a"><h>作者</h><div class="post-copyright-cc-info"><h>Nino Neumann</h></div></div><div class="post-copyright-c"><h>发布于</h><div class="post-copyright-cc-info"><h>2022-04-28</h></div></div><div class="post-copyright-u"><h>更新于</h><div class="post-copyright-cc-info"><h>2022-05-05</h></div></div><div class="post-copyright-c"><h>许可协议</h><div class="post-copyright-cc-info"><a class="icon" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a><a rel="noopener" target="_blank" title="CC BY-NC-SA 4.0" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></div></div></div></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">计算机网络</a><a class="post-meta__tags" href="/tags/%E4%B8%93%E4%B8%9A%E8%AF%BE/">专业课</a></div><div class="post_share"><div class="social-share" data-image="https://npm.elemecdn.com/ninoneumann-pic-assert/cover_6.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2022/04/28/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/"><img class="prev-cover" src="https://npm.elemecdn.com/ninoneumann-pic-assert/cover_9.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">算法笔记</div></div></a></div><div class="next-post pull-right"><a href="/2022/04/27/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%AC%E4%BA%8C%E7%AB%A0/"><img class="next-cover" src="https://npm.elemecdn.com/ninoneumann-pic-assert/cover_12.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">计算机网络第二章</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2022/04/14/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%AC%E4%B8%80%E7%AB%A0/" title="计算机网络第一章"><img class="cover" src="https://npm.elemecdn.com/ninoneumann-pic-assert/cover_2.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-04-14</div><div class="title">计算机网络第一章</div></div></a></div><div><a href="/2022/04/27/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%AC%AC%E4%BA%8C%E7%AB%A0/" title="计算机网络第二章"><img class="cover" src="https://npm.elemecdn.com/ninoneumann-pic-assert/cover_12.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2022-04-27</div><div class="title">计算机网络第二章</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://npm.elemecdn.com/ninoneumann-pic-assert/head_dog.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Nino Neumann</div><div class="author-info__description">a cs student</div></div><div class="card-info-data is-center"><div class="card-info-data-item"><a href="/archives/"><div class="headline">文章</div><div class="length-num">26</div></a></div><div class="card-info-data-item"><a href="/tags/"><div class="headline">标签</div><div class="length-num">23</div></a></div><div class="card-info-data-item"><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/NinoNuman" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:3302023514@qq.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a><a class="social-icon" href="/xxxx" target="_blank" title="Weixin"><i class="fa-brands fa-weixin"></i></a><a class="social-icon" href="/3302023514" target="_blank" title="QQ"><i class="fa-brands fa-qq"></i></a><a class="social-icon" href="/xxxx" target="_blank" title="Google"><i class="fa-brands fa-google"></i></a><a class="social-icon" href="/xxxx" target="_blank" title="Zhihu"><i class="fa-brands fa-zhihu"></i></a><a class="social-icon" href="/xxxx" target="_blank" title="Gitkraken"><i class="fa-brands fa-gitkraken"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content is-expand"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link"><span class="toc-number">1.</span> <span class="toc-text">计算机网络第三章</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="toc-number">1.1.</span> <span class="toc-text">数据链路层的概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82"><span class="toc-number">1.1.1.</span> <span class="toc-text">什么是数据链路层</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82%E5%AD%98%E5%9C%A8%E7%9A%84%E6%84%8F%E4%B9%89"><span class="toc-number">1.1.2.</span> <span class="toc-text">数据链路层存在的意义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%89%A9%E7%90%86%E9%93%BE%E8%B7%AF%E5%92%8C%E9%80%BB%E8%BE%91%E9%93%BE%E8%B7%AF%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="toc-number">1.1.3.</span> <span class="toc-text">物理链路和逻辑链路的区别</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82%E5%AD%98%E5%9C%A8%E7%9A%84%E7%9B%AE%E7%9A%84"><span class="toc-number">1.1.4.</span> <span class="toc-text">数据链路层存在的目的</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82%E5%AD%98%E5%9C%A8%E7%9A%84%E5%BF%85%E8%A6%81%E6%80%A7"><span class="toc-number">1.1.5.</span> <span class="toc-text">数据链路层存在的必要性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82%E7%9A%84%E7%BB%93%E6%9E%84"><span class="toc-number">1.1.6.</span> <span class="toc-text">数据链路层的结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82%E6%8F%90%E4%BE%9B%E7%9A%84%E6%9C%8D%E5%8A%A1"><span class="toc-number">1.1.7.</span> <span class="toc-text">数据链路层提供的服务</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82%E7%9A%84%E4%B8%BB%E8%A6%81%E5%8A%9F%E8%83%BD%E5%8F%8A%E5%85%B6%E5%8E%9F%E7%90%86"><span class="toc-number">1.2.</span> <span class="toc-text">数据链路层的主要功能及其原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#DLL-Data-Link-Layer-must-provide-%E6%95%B0%E6%8D%AE%E9%93%BE%E8%B7%AF%E5%B1%82%E9%9C%80%E8%A6%81%E8%A7%A3%E5%86%B3%E7%9A%84%E5%87%A0%E4%B8%AA%E9%97%AE%E9%A2%98"><span class="toc-number">1.2.1.</span> <span class="toc-text">DLL(Data Link Layer) must provide 数据链路层需要解决的几个问题 :</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E5%8A%9F%E8%83%BD"><span class="toc-number">1.2.2.</span> <span class="toc-text">基本功能</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LLC-%E5%8A%9F%E8%83%BD"><span class="toc-number">1.2.3.</span> <span class="toc-text">LLC 功能</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%B5%81%E9%87%8F%E6%8E%A7%E5%88%B6"><span class="toc-number">1.2.3.1.</span> <span class="toc-text">流量控制</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%B5%81%E9%87%8F%E6%8E%A7%E5%88%B6%E5%8D%8F%E8%AE%AEFlow-control-protocols"><span class="toc-number">1.2.3.1.1.</span> <span class="toc-text">流量控制协议Flow control protocols</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#Stop-and-Wait-Protocols-%E5%81%9C%E7%AD%89%E5%8D%8F%E8%AE%AE-%EF%BC%8C-%E4%B9%9F%E6%98%AF-ARQ-Automatic-Repeat-reQuest"><span class="toc-number">1.2.3.1.1.1.</span> <span class="toc-text">Stop and Wait Protocols  停等协议 ， 也是  ARQ (Automatic Repeat reQuest)</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3%E5%8D%8F%E8%AE%AE"><span class="toc-number">1.2.3.1.1.2.</span> <span class="toc-text">滑动窗口协议</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E5%90%8E%E9%80%80n%E5%B8%A7%E5%8D%8F%E8%AE%AE"><span class="toc-number">1.2.3.1.1.3.</span> <span class="toc-text">后退n帧协议</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#%E9%80%89%E6%8B%A9%E6%80%A7%E9%87%8D%E4%BC%A0%E3%80%90%E8%BF%99%E4%B8%AA%E6%9A%82%E6%97%B6%E5%85%88%E7%95%A5%E8%BF%87%E3%80%91"><span class="toc-number">1.2.3.1.1.4.</span> <span class="toc-text">选择性重传【这个暂时先略过】</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#GBN%E5%8D%8F%E8%AE%AE%E7%9A%84%E7%9B%B8%E5%85%B3%E4%BE%8B%E9%A2%98%EF%BC%9A"><span class="toc-number">1.2.4.</span> <span class="toc-text">GBN协议的相关例题：</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#GBN%E5%8D%8F%E8%AE%AE%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%BB%E7%BB%93%EF%BC%9A"><span class="toc-number">1.2.4.1.</span> <span class="toc-text">GBN协议的一些总结：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#MAC-%E5%8A%9F%E8%83%BD"><span class="toc-number">1.2.5.</span> <span class="toc-text">MAC 功能</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%88%90%E5%B8%A7"><span class="toc-number">1.2.5.1.</span> <span class="toc-text">成帧</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%88%90%E5%B8%A7%E7%9A%84%E6%96%B9%E6%B3%95"><span class="toc-number">1.2.5.1.1.</span> <span class="toc-text">成帧的方法</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B7%AE%E9%94%99%E6%8E%A7%E5%88%B6-%EF%BC%88%E6%A0%A1%E9%AA%8C-%E7%BA%A0%E9%94%99%EF%BC%89"><span class="toc-number">1.2.5.2.</span> <span class="toc-text">差错控制 （校验+纠错）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BF%A1%E9%81%93%E5%88%86%E9%85%8D%E9%97%AE%E9%A2%98"><span class="toc-number">1.2.6.</span> <span class="toc-text">信道分配问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%97%B6%E5%88%86%E5%A4%9A%E5%9D%80%E6%8E%A5%E5%85%A5-TDMA"><span class="toc-number">1.2.6.1.</span> <span class="toc-text">时分多址接入-TDMA</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%A2%91%E5%88%86%E5%A4%9A%E5%9D%80%E6%8E%A5%E5%85%A5-FDMA"><span class="toc-number">1.2.6.2.</span> <span class="toc-text">频分多址接入-FDMA</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%A4%9A%E8%B7%AF%E8%AE%BF%E9%97%AE%E5%8D%8F%E8%AE%AE"><span class="toc-number">1.2.6.3.</span> <span class="toc-text">多路访问协议</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%9A%8F%E6%9C%BA%E8%AE%BF%E9%97%AE"><span class="toc-number">1.2.6.3.1.</span> <span class="toc-text">随机访问</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#ALOHA"><span class="toc-number">1.2.6.3.1.1.</span> <span class="toc-text">ALOHA</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#CSMA-%E8%BD%BD%E6%B3%A2%E7%9B%91%E5%90%AC"><span class="toc-number">1.2.6.3.1.2.</span> <span class="toc-text">CSMA  载波监听</span></a></li></ol></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%8F%97%E6%8E%A7%E8%AE%BF%E9%97%AE"><span class="toc-number">1.2.6.3.2.</span> <span class="toc-text">受控访问</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%9C%89%E9%99%90%E7%AB%9E%E4%BA%89"><span class="toc-number">1.2.6.3.3.</span> <span class="toc-text">有限竞争</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DDL%E4%B8%AD%E7%9A%84DLP%EF%BC%88Data-Link-Protocols%EF%BC%89%E7%9A%84%E4%BE%8B%E5%AD%90%EF%BC%9A"><span class="toc-number">1.3.</span> <span class="toc-text">DDL中的DLP（Data Link Protocols）的例子：</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86%E7%9A%84%E8%A7%A3%E9%87%8A%EF%BC%9A"><span class="toc-number">1.4.</span> <span class="toc-text">一些知识的解释：</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2022/05/08/Anki%E5%AE%89%E8%A3%85-%E7%BE%8E%E5%8C%96-%E4%BD%BF%E7%94%A8/" title="Anki安装-美化-使用"><img src="https://npm.elemecdn.com/ninoneumann-pic-assert/cover_18.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Anki安装-美化-使用"/></a><div class="content"><a class="title" href="/2022/05/08/Anki%E5%AE%89%E8%A3%85-%E7%BE%8E%E5%8C%96-%E4%BD%BF%E7%94%A8/" title="Anki安装-美化-使用">Anki安装-美化-使用</a><time datetime="2022-05-08T01:33:18.000Z" title="发表于 2022-05-08 09:33:18">2022-05-08</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/05/08/%E8%8B%B1%E8%AF%AD%E9%98%85%E8%AF%BB-%E5%AD%A6%E4%B9%A0/" title="英语阅读-学习"><img src="https://npm.elemecdn.com/ninoneumann-pic-assert/cover_5.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="英语阅读-学习"/></a><div class="content"><a class="title" href="/2022/05/08/%E8%8B%B1%E8%AF%AD%E9%98%85%E8%AF%BB-%E5%AD%A6%E4%B9%A0/" title="英语阅读-学习">英语阅读-学习</a><time datetime="2022-05-08T00:58:02.000Z" title="发表于 2022-05-08 08:58:02">2022-05-08</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/05/07/%E5%A6%82%E4%BD%95%E5%87%86%E5%A4%87%E8%80%83%E7%A0%94%E8%8B%B1%E8%AF%AD/" title="如何准备考研英语"><img src="https://npm.elemecdn.com/ninoneumann-pic-assert/cover_4.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="如何准备考研英语"/></a><div class="content"><a class="title" href="/2022/05/07/%E5%A6%82%E4%BD%95%E5%87%86%E5%A4%87%E8%80%83%E7%A0%94%E8%8B%B1%E8%AF%AD/" title="如何准备考研英语">如何准备考研英语</a><time datetime="2022-05-07T02:31:31.000Z" title="发表于 2022-05-07 10:31:31">2022-05-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/05/05/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/" title="编码规范"><img src="https://npm.elemecdn.com/ninoneumann-pic-assert/cover_10.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="编码规范"/></a><div class="content"><a class="title" href="/2022/05/05/%E7%BC%96%E7%A0%81%E8%A7%84%E8%8C%83/" title="编码规范">编码规范</a><time datetime="2022-05-05T03:10:43.000Z" title="发表于 2022-05-05 11:10:43">2022-05-05</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2022/04/28/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/" title="算法笔记"><img src="https://npm.elemecdn.com/ninoneumann-pic-assert/cover_9.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="算法笔记"/></a><div class="content"><a class="title" href="/2022/04/28/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/" title="算法笔记">算法笔记</a><time datetime="2022-04-28T06:27:44.000Z" title="发表于 2022-04-28 14:27:44">2022-04-28</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2022 By Nino Neumann</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui/dist/fancybox.umd.js"></script><script>var preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',preloader.endLoading())</script><div class="js-pjax"><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css"><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/contrib/copy-tex.min.js"></script><link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/contrib/copy-tex.css"><script>(() => {
+  document.querySelectorAll('#article-container span.katex-display').forEach(item => {
+    btf.wrap(item, 'div', { class: 'katex-wrap'})
+  })
+})()</script></div><script defer src="https://npm.elemecdn.com/jquery@latest/dist/jquery.min.js"></script><script async data-pjax src="/js/randombg.js"></script><script> pseudocode.renderElement(document.getElementsByClassName("pseudocode"));</script><script async src="/js/custom.js"></script><script async src="//at.alicdn.com/t/font_3335191_h7r45g0fpvn.js"></script><script async src="/js/diytitle.js"></script><script async src="/js/grayscale.js"></script><script defer src="https://npm.elemecdn.com/hexo-theme-volantis@latest/source/js/issues.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start --> <script data-pjax>if(document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    var parent = document.getElementById('recent-posts');
+    var child = '<div class="recent-post-item" style="width:100%;height: auto"><div id="catalog_magnet"><div class="magnet_item"><a class="magnet_link" href="https://ninoneumann.cn/categories/专业课/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">📚 CS必修课程 (4)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://ninoneumann.cn/categories/不正经做事儿系列/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🎮 就瞎搞，不搞正事儿 (2)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://ninoneumann.cn/categories/每日英语单词/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🐱‍👓 The Daily English of Nino (5)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><div class="magnet_item"><a class="magnet_link" href="https://ninoneumann.cn/categories/PAT/"><div class="magnet_link_context" style=""><span style="font-weight:500;flex:1">🐯 Nino の PAT 刷题记录 (6)</span><span style="padding:0px 4px;border-radius: 8px;"><i class="fas fa-arrow-circle-right"></i></span></div></a></div><a class="magnet_link_more"  href="https://ninoneumann.cn/categories" style="flex:1;text-align: center;margin-bottom: 10px;">查看更多...</a></div></div>';
+    console.log('已挂载magnet')
+    parent.insertAdjacentHTML("afterbegin",child)}
+     </script><style>#catalog_magnet{flex-wrap: wrap;display: flex;width:100%;justify-content:space-between;padding: 10px 10px 0 10px;align-content: flex-start;}.magnet_item{flex-basis: calc(50% - 5px);background: #f2f2f2;margin-bottom: 10px;border-radius: 8px;transition: all 0.2s ease-in-out;}.magnet_item:hover{background: #b30070}.magnet_link_more{color:#555}.magnet_link{color:black}.magnet_link:hover{color:white}@media screen and (max-width: 600px) {.magnet_item {flex-basis: 100%;}}.magnet_link_context{display:flex;padding: 10px;font-size:16px;transition: all 0.2s ease-in-out;}.magnet_link_context:hover{padding: 10px 20px;}</style>
+    <style></style><script data-pjax>function history_calendar_injector_config(){
+                var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+                var item_html = '<div class="card-widget card-history"><div class="card-content"><div class="item-headline"><i class="fas fa-clock fa-spin"></i><span>那年今日</span></div><div id="history-baidu" style="height: 100px;overflow: hidden"><div class="history_swiper-container" id="history-container" style="width: 100%;height: 100%"><div class="swiper-wrapper" id="history_container_wrapper" style="height:20px"></div></div></div></div>';
+                console.log('已挂载history_calendar')
+                // parent_div_git.innerHTML=item_html+parent_div_git.innerHTML // 无报错，但不影响使用(支持pjax跳转)
+                parent_div_git.insertAdjacentHTML("afterbegin",item_html) // 有报错，但不影响使用(支持pjax跳转)
+            }if( document.getElementsByClassName('sticky_layout')[0] && (location.pathname ==='all'|| 'all' ==='all')){
+
+            history_calendar_injector_config()
+        } </script><script data-pjax src="https://cdn.jsdelivr.net/gh/Zfour/Butterfly-card-history/baiduhistory/js/main.js"></script><script data-pjax>
+  function card_artitalk_injector_config(){
+    var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+    var item_html = '<div class="card-widget card-shuo"><div class="card-content" style="height:auto;min-height:280px;"><div class="item-headline"><i class="fas fa-comments"></i><span><a href="/artitalk/" title="artitalk page link">碎碎念</a></span><a id="cardVisual" style="cursor:pointer;float:right" onclick="cardVisual()">编辑</a></div><div id="artitalk_main" style="width:100%;height:100%;padding:1px"></div></div></div>';
+    console.log('已挂载card_artitalk');
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html);
+    (()=>{
+      const init = () => {
+        new Artitalk(Object.assign({
+          appId: 'NwuzyoTlQxRa5jAwry8dVFJQ-MdYXbMMI',
+          appKey: 'F6rexfUlERt3SGpCUXLlFK1E',
+        }, {"serverURL":"https://NwuzyoTl.api.lncldglobal.com","lang":"zh","pageSize":1,"color1":"#49b1f5","color2":"#00c4b6","atEmoji":{"Mafumafu1":"https://cdn.jsdelivr.net/gh/GamerNoTitle/ValineCDN@master/Mafumafu/199749454.png","Mafumafu2":"https://cdn.jsdelivr.net/gh/GamerNoTitle/ValineCDN@master/Mafumafu/199749455.png"}} ))
+      }
+      if (typeof Artitalk === 'function') {
+        init()
+      } else {
+        getScript('https://unpkg.zhimg.com/artitalk').then(init)
+      }
+    })()
+    }
+  var elist = '/artitalk/,/posts/'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    card_artitalk_injector_config();
+  }
+  else if (epage === cpage){
+    card_artitalk_injector_config();
+  }
+  </script><script async src="https://unpkg.zhimg.com/hexo-butterfly-artitalk-pro/lib/card_visual.js"></script><script data-pjax>
+  function butterfly_clock_injector_config(){
+    var parent_div_git = document.getElementsByClassName('sticky_layout')[0];
+    var item_html = '<div class="card-widget card-clock"><div class="card-glass"><div class="card-background"><div class="card-content"><div id="hexo_electric_clock"><img class="entered loading" id="card-clock-loading" src="https://npm.elemecdn.com/hexo-butterfly-clock/lib/loading.pug.gif" style="height: 120px; width: 100%;" data-ll-status="loading"/></div></div></div></div></div>';
+    console.log('已挂载butterfly_clock')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_clock_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_clock_injector_config();
+  }
+  </script><script src="https://pv.sohu.com/cityjson?ie=utf-8"></script><script data-pjax src="https://npm.elemecdn.com/hexo-butterfly-clock/lib/clock.min.js"></script><script data-pjax>
+  function butterfly_footer_beautify_injector_config(){
+    var parent_div_git = document.getElementById('footer-wrap');
+    var item_html = '<div id="workboard"></div><div id="ghbdages" style="overflow:hidden;max-height:90px;height:auto;text-align:center;margin-top:10px"><div class="swiper-wrapper"><div class="swiper-slide"><a class="github-badge" target="_blank" href="https://hexo.io/" style="margin-inline:5px" title="博客框架为Hexo_v5.4.0"><img src="https://img.shields.io/badge/Frame-Hexo-blue?style=flat&amp;logo=hexo" alt=""/></a><a class="github-badge" target="_blank" href="https://butterfly.js.org/" style="margin-inline:5px" title="主题版本Butterfly_v4.1.0"><img src="https://img.shields.io/badge/Theme-Butterfly-6513df?style=flat&amp;logo=bitdefender" alt=""/></a><a class="github-badge" target="_blank" href="https://www.jsdelivr.com/" style="margin-inline:5px" title="本站使用JsDelivr为静态资源提供CDN加速"><img src="https://img.shields.io/badge/CDN-jsDelivr-orange?style=flat&amp;logo=jsDelivr" alt=""/></a></div><div class="swiper-slide"><a class="github-badge" target="_blank" href="https://vercel.com/" style="margin-inline:5px" title="本站采用双线部署，默认线路托管于腾讯云"><img src="https://img.shields.io/badge/Hosted-Vercel-brightgreen?style=flat&amp;logo=Vercel" alt=""/></a><a class="github-badge" target="_blank" href="https://github.com/" style="margin-inline:5px" title="本站项目由Github托管"><img src="https://img.shields.io/badge/Source-Github-d021d6?style=flat&amp;logo=GitHub" alt=""/></a><a class="github-badge" target="_blank" href="https://www.beianx.cn/search?keyword=%E8%8B%8FICP%E5%A4%872021022016%E5%8F%B7" style="margin-inline:5px"><img src="https://img.shields.io/badge/%E8%8B%8FICP%E5%A4%87-2021022016%E5%8F%B7--1-e1d492?style=flat&amp;logo=data:image/png;base64,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" alt=""/></a></div><div class="swiper-slide"><a class="github-badge" target="_blank" href="http://creativecommons.org/licenses/by-nc-sa/4.0/" style="margin-inline:5px" title="本站采用知识共享署名-非商业性使用-相同方式共享4.0国际许可协议进行许可"><img src="https://img.shields.io/badge/Copyright-BY--NC--SA%204.0-d42328?style=flat&amp;logo=Claris" alt=""/></a></div></div></div><style>a.github-badge:hover:before {display:none}</style>';
+    console.log('已挂载butterfly_footer_beautify')
+    parent_div_git.insertAdjacentHTML("beforeend",item_html)
+    }
+  var elist = 'null'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_footer_beautify_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_footer_beautify_injector_config();
+  }
+  </script><script async src="https://unpkg.zhimg.com/hexo-butterfly-footer-beautify@1.0.0/lib/runtime.min.js"></script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-footer-beautify/lib/swiperbdage_init.min.js"></script><script data-pjax>
+  function butterfly_swiper_injector_config(){
+    var parent_div_git = document.getElementById('recent-posts');
+    var item_html = '<div class="recent-post-item" style="height: auto;width: 100%"><div class="blog-slider swiper-container-fade swiper-container-horizontal" id="swiper_container"><div class="blog-slider__wrp swiper-wrapper" style="transition-duration: 0ms;"><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2022/04/19/高等数学-Skill-points/" alt=""><img width="48" height="48" src="https://npm.elemecdn.com/ninoneumann-pic-assert/cover_4.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2022-04-19</span><a class="blog-slider__title" href="2022/04/19/高等数学-Skill-points/" alt="">高等数学-Skill-points</a><div class="blog-slider__text">这是个简单的描述而已</div><a class="blog-slider__button" href="2022/04/19/高等数学-Skill-points/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2022/04/19/快速幂算法初步/" alt=""><img width="48" height="48" src="https://npm.elemecdn.com/ninoneumann-pic-assert/cover_18.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2022-04-19</span><a class="blog-slider__title" href="2022/04/19/快速幂算法初步/" alt="">快速幂算法初步</a><div class="blog-slider__text">这是个简单的描述而已</div><a class="blog-slider__button" href="2022/04/19/快速幂算法初步/" alt="">详情   </a></div></div><div class="blog-slider__item swiper-slide" style="width: 750px; opacity: 1; transform: translate3d(0px, 0px, 0px); transition-duration: 0ms;"><a class="blog-slider__img" href="2022/04/25/hexo-博客渲染伪代码教程/" alt=""><img width="48" height="48" src="https://npm.elemecdn.com/ninoneumann-pic-assert/cover_12.jpg" alt="" onerror="this.src=https://unpkg.zhimg.com/akilar-candyassets/image/loading.gif; this.onerror = null;"/></a><div class="blog-slider__content"><span class="blog-slider__code">2022-04-25</span><a class="blog-slider__title" href="2022/04/25/hexo-博客渲染伪代码教程/" alt="">hexo-博客渲染伪代码教程</a><div class="blog-slider__text">这是个简单的描述而已</div><a class="blog-slider__button" href="2022/04/25/hexo-博客渲染伪代码教程/" alt="">详情   </a></div></div></div><div class="blog-slider__pagination swiper-pagination-clickable swiper-pagination-bullets"></div></div></div>';
+    console.log('已挂载butterfly_swiper')
+    parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+    }
+  var elist = 'undefined'.split(',');
+  var cpage = location.pathname;
+  var epage = 'all';
+  var flag = 0;
+
+  for (var i=0;i<elist.length;i++){
+    if (cpage.includes(elist[i])){
+      flag++;
+    }
+  }
+
+  if ((epage ==='all')&&(flag == 0)){
+    butterfly_swiper_injector_config();
+  }
+  else if (epage === cpage){
+    butterfly_swiper_injector_config();
+  }
+  </script><script defer src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper.min.js"></script><script defer data-pjax src="https://npm.elemecdn.com/hexo-butterfly-swiper/lib/swiper_init.js"></script><div class="js-pjax"><script async="async">var arr = document.getElementsByClassName('recent-post-item');
+for(var i = 0;i<arr.length;i++){
+    arr[i].classList.add('wow');
+    arr[i].classList.add('animate__zoomIn');
+    arr[i].setAttribute('data-wow-duration', '');
+    arr[i].setAttribute('data-wow-delay', '');
+    arr[i].setAttribute('data-wow-offset', '');
+    arr[i].setAttribute('data-wow-iteration', '');
+  }</script></div><script defer src="https://unpkg.zhimg.com/hexo-butterfly-wowjs/lib/wow.min.js"></script><script defer src="https://unpkg.zhimg.com/hexo-butterfly-wowjs/lib/wow_init.js"></script><script data-pjax src="https://npm.elemecdn.com/hexo-filter-gitcalendar/lib/gitcalendar.js"></script><script data-pjax>
+  function gitcalendar_injector_config(){
+      var parent_div_git = document.getElementById('recent-posts');
+      var item_html = '<div class="recent-post-item" style="width:100%;height:auto;padding:10px;"><style>#git_container{min-height: 280px}@media screen and (max-width:650px) {#git_container{min-height: 0px}}</style><div id="git_loading" style="width:10%;height:100%;margin:0 auto;display: block;"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50" xml:space="preserve"><path fill="#d0d0d0" d="M25.251,6.461c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615V6.461z" transform="rotate(275.098 25 25)"><animatetransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25" dur="0.6s" repeatCount="indefinite"></animatetransform></path></svg><style>#git_container{display: none;}</style></div><div id="git_container"></div></div>';
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+      console.log('已挂载gitcalendar')
+      }
+
+    if( document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+        gitcalendar_injector_config()
+        GitCalendarInit("https://github-calendar-three.vercel.app/api?NinoNuman",['#ebedf0', '#f0fff4', '#dcffe4', '#bef5cb', '#85e89d', '#34d058', '#28a745', '#22863a', '#176f2c', '#165c26', '#144620'],'NinoNuman')
+    }
+  </script><!-- hexo injector body_end end --></body></html>
